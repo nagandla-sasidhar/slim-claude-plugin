@@ -1,6 +1,6 @@
 ---
 name: slim
-description: Use this skill when the user asks to convert a file to SLIM format, write a new SLIM document, validate or review an existing .slm file, check SLIM v2 syntax, or asks questions like "convert this to SLIM", "make this SLIM", "is this valid SLIM", "write a SLIM prompt", "create a SLIM agent config", or "review this .slm file". Also use when the user pastes Markdown/JSON/plain text and wants it optimised for LLM token usage.
+description: Use this skill when the user asks to convert a file to SLIM format, write a new SLIM document, validate or review an existing .slm file, check SLIM v2 syntax, or asks questions like "convert this to SLIM", "make this SLIM", "is this valid SLIM", "write a SLIM prompt", "create a SLIM agent config", or "review this .slm file". Also use when the user pastes Markdown/JSON/YAML/plain text and wants it optimised for LLM token usage.
 version: 1.0.0
 ---
 
@@ -48,7 +48,26 @@ $var                     ← variable reference (interpolated at runtime)
 | `\`\`\`lang ... \`\`\`` | `::CODE_N lang` section |
 | `<!-- comment -->` | `~ comment` |
 
-## How to convert (step by step)
+## Token-saving conversions from YAML
+| YAML | SLIM |
+|---|---|
+| `key: scalar` root scalar | `@key: scalar` header |
+| `key:` block (array or object) | `::KEY` section |
+| `- item` list entry | plain line (marker stripped) |
+| `# comment` | `~ comment` |
+| Quoted values `"val"` / `'val'` | unquoted plain value |
+| Inline comment `key: val # note` | value without comment |
+
+## How to convert YAML (step by step)
+
+1. Skip `---` document separators
+2. Root scalar `key: value` → `@key: value` header; strip inline `# comments` and quotes
+3. Root block `key:` (array or object) → `::KEY` section; collect indented children, strip `- ` list markers
+4. `# comment` lines → `~ comment`
+5. Nested sub-keys inside a block → preserve as `subkey: value` lines in the section body
+6. Report token savings
+
+## How to convert Markdown (step by step)
 
 1. **Read the source file** — identify: YAML front-matter, headings, bullets, code blocks, bold/italic
 2. **Write header zone** — `@slim: 2.0`, then map YAML keys to `@key`/`@+key`
@@ -95,6 +114,40 @@ Be concise. Flag critical issues first.
 ::CONSTRAINTS
 Never approve a PR with an unaddressed critical security issue.
 Keep each comment under 80 words.
+```
+
+## Example — YAML agent config → SLIM
+
+Input YAML:
+```yaml
+# Agent config
+name: DataAnalyst
+model: claude-opus-4-7
+temperature: 0.3
+instructions:
+  - Always cite data sources
+  - Flag data quality issues
+constraints:
+  - Never fabricate data points
+  - Keep reports under 500 words
+```
+
+Output SLIM:
+```
+@slim: 2.0
+@name: DataAnalyst
+@model: claude-opus-4-7
+@temperature: 0.3
+
+~ Agent config
+
+::INSTRUCTIONS
+Always cite data sources
+Flag data quality issues
+
+::CONSTRAINTS
+Never fabricate data points
+Keep reports under 500 words
 ```
 
 ## Reporting token savings
