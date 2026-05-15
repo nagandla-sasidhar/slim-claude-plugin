@@ -11,8 +11,16 @@ Adds a `/slim` skill to Claude Code for converting documents to [SLIM format](ht
 
 ## Install
 
+Once listed in the Claude Code plugin directory:
+
+```
+/plugin install slim
+```
+
+Or install directly from this repo:
+
 ```bash
-claude plugin install https://github.com/nagandla-sasidhar/slim-claude-plugin
+claude plugin install nagandla-sasidhar/slim-claude-plugin
 ```
 
 ## Usage

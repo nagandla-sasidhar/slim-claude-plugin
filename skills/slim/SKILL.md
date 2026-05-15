@@ -7,7 +7,7 @@ version: 1.0.0
 # SLIM Format Skill
 
 SLIM (Structured LLM Instruction Markup) v2.0 is a token-efficient format for AI documents.
-Website: https://slimformat.org | Repo: TAML/ | Playground: slimformat.org/playground.html
+Website: https://slimformat.org | Repo: https://github.com/nagandla-sasidhar/TAML | Playground: https://slimformat.org/playground.html
 
 ## Core Syntax (v2.0)
 
@@ -21,6 +21,7 @@ $var                     ← variable reference (interpolated at runtime)
 ::SECTION_NAME type      ← named section, no close tag (type is optional)
   content here           ← verbatim until blank line or next ::
 :::NESTED_NAME type      ← nested section (one extra colon)
+::CODE_1 lang            ← code block; increment _N for each additional block
 ```
 
 ## Header zone rules
@@ -99,7 +100,7 @@ Keep each comment under 80 words.
 ## Reporting token savings
 
 After converting, always report:
-- Input tokens (original)
-- LLM-facing tokens (SLIM output, header zone excluded)
+- Input tokens (original) — estimate as char_count / 4
+- LLM-facing tokens (SLIM output, header zone excluded) — same estimation
 - Savings % = (input - llm_facing) / input × 100
-- Use `python tests/md_to_slm.py` to run the converter; `SLIM.estimateTokens()` in JS
+- For precise counts use tiktoken (Python) or the playground at https://slimformat.org/playground.html
