@@ -1,10 +1,8 @@
 {
   "name": "slim",
-  "version": "1.0.0",
-  "description": "Convert Markdown, JSON, and plain text to SLIM format (Structured LLM Instruction Markup). Saves 30–45% tokens on average. Validates .slm files against SLIM v2 spec.",
-  "author": "Sasidhar Nagandla",
-  "homepage": "https://slimformat.org",
-  "keywords": ["slim", "token-efficiency", "prompt-engineering", "markdown-to-slim", "llm-docs"],
-  "skills": ["slim"],
-  "category": "productivity"
+  "description": "Convert Markdown, JSON, and plain text to SLIM format (Structured LLM Instruction Markup). Saves 30-45% tokens on average. Validates .slm files against the SLIM v2 spec.",
+  "author": {
+    "name": "Sasidhar Nagandla",
+    "email": "nagandla.sasidhar@gmail.com"
+  }
 }
