@@ -1,0 +1,12 @@
+{
+  "name": "slim",
+  "version": "1.0.0",
+  "description": "Convert Markdown, JSON, YAML and plain text to SLIM format (Structured LLM Instruction Markup). Typically saves 30-45% tokens. Validates .slm files against the SLIM v2 spec.",
+  "author": {
+    "name": "Sasidhar Nagandla",
+    "email": "nagandla.sasidhar@gmail.com"
+  },
+  "skills": [
+    "skills/slim/SKILL.md"
+  ]
+}
